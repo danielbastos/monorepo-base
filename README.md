@@ -1,4 +1,4 @@
-# English
+# monorepo-base
 
 Monorepo com pnpm workspaces contendo duas aplicações:
 
@@ -40,7 +40,7 @@ pnpm install
 ## Estrutura
 
 ```
-english/
+monorepo-base/
 ├── AGENTS.md            # Regras comuns do monorepo
 ├── biome.json           # Lint e formatação compartilhados
 ├── tsconfig.base.json   # Config TypeScript compartilhada
