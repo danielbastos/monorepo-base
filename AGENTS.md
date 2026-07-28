@@ -14,33 +14,29 @@
 - Preferir interfaces para shapes de objetos públicos
 - Usar `as const` para constantes e configurações imutáveis
 
-### Código
+### Código e Contratos
 
 - Funções puras sempre que possível
 - Injetar dependências externas quando isso melhorar isolamento e testabilidade, evitando abstrações antecipadas e containers de DI sem necessidade
-- Tratar erros explicitamente — nunca engolir erros silenciosamente
 - Validar inputs externos com schemas
-- Não commitar secrets, chaves ou credenciais
+- Manter contratos de entrada e saída tipados e documentados nas fronteiras da aplicação
+- Tratar erros explicitamente, com respostas consistentes e sem expor detalhes internos ou dados sensíveis
+- Aplicar autenticação e autorização no servidor, nunca somente na interface
 
-### Commits
+### Configuração e Segurança
 
-- Mensagens claras e descritivas em inglês
-- Formato: `<type>(<scope>): <description>`
-- Types: `feat`, `fix`, `refactor`, `chore`, `docs`, `test`, `perf`
-- Um commit por mudança lógica
-
-### Git
-
-- Manter `main` protegida e sempre utilizável
-- Usar branches curtas `feature/*` e `fix/*`
-- Pull requests são obrigatórios para todas as mudanças em `main`
-- Usar squash merge para manter um commit por mudança lógica
+- Usar variáveis de ambiente para configuração e validá-las na inicialização da aplicação
+- Manter `.env.example` atualizado sem credenciais reais
+- Nunca commitar secrets, chaves ou credenciais
+- Nunca expor dados sensíveis em logs
+- Validar e sanitizar todas as entradas externas
 
 ### Qualidade
 
 - Rodar lint e typecheck antes de commitar
 - Não suprimir avisos sem justificativa
-- Testes devem ser rápidos e determinísticos
+- Criar testes para regras de negócio, fluxos críticos e autorização
+- Testes devem ser rápidos, determinísticos e independentes da ordem de execução, do relógio real e de serviços externos
 
 ### Dependências
 
@@ -48,11 +44,15 @@
 - Manter dependências atualizadas
 - Preferir dependências bem mantidas e com boa reputação
 
-### Segurança
+### Git
 
-- Nunca expor dados sensíveis em logs
-- Usar variáveis de ambiente para configuração
-- Validar e sanitizar todas as entradas externas
+- Manter `main` protegida e sempre utilizável
+- Usar branches curtas `feature/*` e `fix/*`
+- Pull requests são obrigatórios para todas as mudanças em `main`
+- Usar squash merge para manter um commit por mudança lógica
+- Mensagens de commit devem ser claras e descritivas em inglês, no formato `<type>(<scope>): <description>`
+- Types permitidos: `feat`, `fix`, `refactor`, `chore`, `docs`, `test`, `perf`
+- Um commit por mudança lógica
 
 ### Performance
 
