@@ -11,13 +11,50 @@ adotado neste monorepo.
 ## Pré-requisitos
 
 - Node.js 24
-- pnpm 11.12.0
+- pnpm 11.17.0
+- Docker com Docker Compose
 
 ## Instalação
 
 ```bash
 pnpm install
 ```
+
+## Infraestrutura local
+
+O Compose da raiz fornece os serviços locais usados pelo desenvolvimento:
+
+| Serviço | Imagem | Portas | Acesso |
+|---|---|---|---|
+| PostgreSQL | `postgres:18` | `5432` | `postgresql://localhost:5432` |
+| RustFS S3 | `rustfs/rustfs:1.0.0-beta.11` | `9000` | `http://localhost:9000` |
+| RustFS Console | `rustfs/rustfs:1.0.0-beta.11` | `9001` | `http://localhost:9001` |
+| Mailpit SMTP | `axllent/mailpit:v1.30.5` | `1025` | `localhost:1025` |
+| Mailpit Web | `axllent/mailpit:v1.30.5` | `8025` | `http://localhost:8025` |
+
+Crie o arquivo local de credenciais e suba os serviços:
+
+```bash
+cp .env.example .env
+docker compose up -d
+docker compose ps
+```
+
+O `compose.yaml` mantém os dados em volumes nomeados. Para parar os serviços
+sem apagar os dados:
+
+```bash
+docker compose down
+```
+
+Para remover também os volumes e reiniciar todos os serviços do zero:
+
+```bash
+docker compose down -v
+```
+
+O Compose prepara os serviços, mas não cria buckets no RustFS nem conecta esses
+serviços à API nesta etapa.
 
 ## Comandos
 
