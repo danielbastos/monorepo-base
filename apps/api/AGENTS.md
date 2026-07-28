@@ -1,78 +1,43 @@
 # AGENTS.md - Práticas Fastify
 
-## Estrutura de Diretórios
+## Inicialização e Plugins
 
-- `src/` — código fonte
-- `src/routes/` — rotas organizadas por domínio
-- `src/plugins/` — plugins compartilhados
-- `src/schemas/` — JSON Schemas de validação
-- `src/services/` — lógica de negócio
-- `src/types/` — tipos compartilhados
-- `src/utils/` — utilitários
+- Usar o pattern `buildApp()` para criar e configurar a instância do Fastify
+- Separar a configuração da aplicação da inicialização do servidor
+- Organizar rotas relacionadas em plugins e registrar dependências antes de seus consumidores
+- Usar `@fastify/helmet` e rate limiting como proteções de borda
 
-## Convenções Fastify
+## Rotas e Contratos HTTP
 
-### Inicialização
+- Organizar rotas por domínio ou recurso e registrá-las sob um prefixo de API documentado
+- Usar JSON Schema nativo do Fastify e manter schemas em arquivos dedicados
+- Declarar schemas de `body`, `params` e `querystring` para toda entrada recebida pela rota
+- Declarar schemas de resposta para sucessos e erros HTTP esperados
+- Definir explicitamente a estratégia para propriedades desconhecidas conforme o contrato da rota
+- Usar códigos HTTP semanticamente corretos, incluindo `201`, `204`, `401`, `403`, `404` e `409`
 
-- Usar `buildApp()` pattern — função que retorna a instância do Fastify
-- Separar configuração do servidor da inicialização
-- Usar `@fastify/env` para validação de variáveis de ambiente na inicialização
+## Handlers e Hooks
 
-### Rotas
+- Manter handlers finos: validar entrada, delegar ao serviço e formatar a resposta
+- Usar o hook mínimo adequado para preocupações transversais e nunca concentrar regras de negócio em hooks
+- Usar erros HTTP customizados ou helpers já disponíveis para expressar falhas esperadas
 
-- Organizar rotas por domínio/resource
-- Usar plugins para agrupar rotas relacionadas
-- Definir schema na rota para validação automática de request/response
-- Usar `preValidation` hooks para auth e validação comum
-- Prefixed routes: `/api/v1/users`, `/api/v1/posts`
+## Dados e Integrações
 
-### Schema Validation
+- Controlar conexões, clientes HTTP e outros recursos de longa duração no ciclo de vida da aplicação
+- Não iniciar conexões por request quando elas puderem ser reutilizadas com segurança
+- Usar transações para operações que alterem múltiplos registros dependentes
+- Configurar timeouts para integrações externas e aplicar retries apenas quando forem explícitos e seguros
+- Paginar endpoints de coleção e definir limite máximo de itens por requisição
 
-- Usar JSON Schema nativo do Fastify para validação de rotas
-- Separar schemas em arquivos dedicados
-- Validar body, params e query string em todas as rotas POST/PUT/PATCH
+## Observabilidade
 
-### Serialização
+- Usar logs estruturados com contexto seguro, como request id, rota e status HTTP
+- Propagar ou gerar um identificador de correlação por requisição
+- Registrar falhas de integrações externas com contexto suficiente para diagnóstico
 
-- Definir `response` schemas para controlar o que é retornado
-- Evitar retornar campos sensíveis (senhas, tokens)
+## Testes
 
-### Plugins
-
-- Um plugin por responsabilidade
-- Registrar plugins na ordem correta (dependencies first)
-- Usar `@fastify/helmet` e `@fastify/rate-limit`
-
-### Hooks
-
-- `onRequest` — autenticação, logging
-- `preParsing` — parsing customizado
-- `preValidation` — validação customizada
-- `preHandler` — lógica antes do handler
-- `onSend` — modificar response antes de enviar
-- `onError` — tratamento de erros centralizado
-
-### Error Handling
-
-- Usar custom errors com códigos HTTP
-- Retornar erro padronizado: `{ error: string, message: string, statusCode: number }`
-- Logar erros com contexto para debugging
-- Usar `@fastify/sensible` para erros HTTP prontos
-
-### Testing
-
-- Usar `inject()` do Fastify para testes de rotas
-- Não subverter servidor HTTP real em testes unitários
-- Mockar dependências externas (DB, APIs)
-
-
-### Environment
-
-- Validar todas as env vars na inicialização
-- Usar tipos para env vars
-- Nunca logar dados sensíveis
-
-## Linting
-
-- Biome com configuração compartilhada na raiz
-- Rodar `pnpm lint` antes de commitar
+- Usar `inject()` do Fastify para testar rotas sem subir um servidor HTTP real
+- Testar schemas e respostas de erro como parte do contrato HTTP
+- Mockar dependências externas e usar recursos isolados em testes de integração
