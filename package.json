@@ -18,7 +18,16 @@
     "typecheck": "pnpm --recursive typecheck",
     "typecheck:web": "pnpm --filter ./apps/web typecheck",
     "typecheck:api": "pnpm --filter ./apps/api typecheck",
-    "start:api": "pnpm --filter ./apps/api start"
+    "start:api": "pnpm --filter ./apps/api start",
+    "test": "pnpm --recursive test",
+    "db:generate": "pnpm --filter @monorepo/database generate",
+    "db:migrate": "pnpm --filter @monorepo/database migrate:dev",
+    "db:migrate:deploy": "pnpm --filter @monorepo/database migrate:deploy",
+    "db:studio": "pnpm --filter @monorepo/database studio",
+    "auth:schema": "pnpm --filter @monorepo/auth schema:generate",
+    "ui:add": "pnpm --filter web ui:add",
+    "ui:diff": "pnpm --filter web ui:diff",
+    "ui:view": "pnpm --filter web ui:view"
   },
   "packageManager": "pnpm@11.17.0+sha512.cca3cea332ad254bb84145f966d19f4879615210346fc92c79a047f23a0d7b3cca3c3792f0076ba1f1831d277efbcf0a9119b31a9a60eca7fb3d6231f331ef72",
   "devDependencies": {
