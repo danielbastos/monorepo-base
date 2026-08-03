@@ -2,6 +2,7 @@ node_modules/
 
 .next/
 dist/
+packages/database/src/generated/
 *.tsbuildinfo
 
 .env

@@ -8,11 +8,14 @@
   },
   "scripts": {
     "dev": "TMPDIR=/tmp tsx watch --env-file-if-exists=.env src/server.ts",
-    "build": "tsc",
+    "build": "pnpm --filter @monorepo/database generate && tsc",
     "start": "node --env-file-if-exists=.env dist/server.js",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "pnpm --filter @monorepo/database generate && tsc --noEmit",
+    "test": "pnpm --filter @monorepo/database generate && node --import tsx --test test/*.test.ts"
   },
   "dependencies": {
+    "@monorepo/auth": "workspace:*",
+    "@monorepo/database": "workspace:*",
     "@fastify/env": "7.0.0",
     "@fastify/helmet": "13.1.0",
     "@fastify/rate-limit": "11.1.0",

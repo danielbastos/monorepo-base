@@ -1,0 +1,26 @@
+{
+  "name": "@monorepo/auth",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "schema:generate": "auth generate --config src/schema.ts --output ../database/prisma/schema.prisma --adapter prisma --dialect postgresql --yes && node scripts/normalize-prisma-schema.mjs"
+  },
+  "dependencies": {
+    "@monorepo/database": "workspace:*",
+    "better-auth": "1.6.25",
+    "nodemailer": "7.0.10"
+  },
+  "devDependencies": {
+    "@types/node": "24.13.3",
+    "@types/nodemailer": "7.0.3",
+    "auth": "1.6.25",
+    "tsx": "4.23.1",
+    "typescript": "5.9.3"
+  }
+}

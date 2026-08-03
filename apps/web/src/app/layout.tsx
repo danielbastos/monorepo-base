@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Web",
-  description: "Next.js application",
+  title: "Monorepo Base",
+  description: "Aplicação multi-tenant",
 };
 
 export default function RootLayout({
@@ -13,7 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body>{children}</body>
+      <body className="min-h-svh antialiased">{children}</body>
     </html>
   );
 }
