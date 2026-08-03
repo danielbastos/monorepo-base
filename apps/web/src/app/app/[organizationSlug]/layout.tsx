@@ -1,5 +1,5 @@
 import { notFound, redirect } from "next/navigation";
-import { AppSidebar } from "@/components/app-sidebar";
+import { OrganizationShell } from "@/components/organization-shell";
 import { getSession, listOrganizations } from "@/lib/auth-api";
 
 export default async function OrganizationLayout({
@@ -20,13 +20,12 @@ export default async function OrganizationLayout({
   );
   if (!organization) notFound();
   return (
-    <div className="min-h-svh lg:grid lg:grid-cols-[18rem_minmax(0,1fr)]">
-      <AppSidebar
-        organization={organization}
-        organizations={organizations}
-        session={session}
-      />
-      <div className="min-w-0">{children}</div>
-    </div>
+    <OrganizationShell
+      organization={organization}
+      organizations={organizations}
+      session={session}
+    >
+      {children}
+    </OrganizationShell>
   );
 }
